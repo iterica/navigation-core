@@ -1,7 +1,7 @@
 {
   "name": "iterica/navigation-core",
   "type": "library",
-  "description": "Symfony navigation bundle",
+  "description": "Navigation core library",
   "homepage": "https://github.com/iterica/navigation-core",
   "license": "MIT",
   "authors": [

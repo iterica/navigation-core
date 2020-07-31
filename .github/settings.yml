@@ -1,11 +1,5 @@
-# https://github.com/probot/settings
-
 branches:
-  - name: "main"
-
-    # https://docs.github.com/en/rest/reference/repos#delete-branch-protection
-    # https://docs.github.com/en/rest/reference/repos#update-branch-protection
-
+  - name: "master"
     protection:
       enforce_admins: false
       required_pull_request_reviews:
@@ -30,19 +24,10 @@ branches:
           - "Tests (7.4, lowest)"
         strict: false
       restrictions:
-
-        # https://docs.github.com/en/rest/reference/repos#list-branches--parameters
-
-        # Note: User, app, and team restrictions are only available for organization-owned repositories.
-        # Set to null to disable when using this configuration for a repository on a personal account.
-
         apps: []
         teams: []
         users:
-          - "ergebnis-bot"
-
-# https://docs.github.com/en/rest/reference/issues#create-a-label
-# https://docs.github.com/en/rest/reference/issues#update-a-label
+          - "iterica-bot"
 
 labels:
   - name: "bug"
@@ -73,24 +58,19 @@ labels:
     color: "eeeeee"
     description: ""
 
-# https://docs.github.com/en/rest/reference/repos#update-a-repository
-
 repository:
   allow_merge_commit: true
   allow_rebase_merge: false
   allow_squash_merge: false
   archived: false
-  default_branch: "main"
+  default_branch: "master"
   delete_branch_on_merge: true
-  description: ":octocat: + :ledger: Provides a GitHub repository template for a PHP library, using GitHub actions."
+  description: "Navigation core library"
   has_downloads: true
   has_issues: true
   has_pages: false
   has_projects: false
   has_wiki: false
-  name: "php-library-template"
+  name: "navigation-core"
   private: false
-
-  # https://docs.github.com/en/rest/reference/repos#replace-all-repository-topics
-
-  topics: "php, library, template"
+  topics: "php, navigation"
