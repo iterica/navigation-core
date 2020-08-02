@@ -27,9 +27,6 @@ class Node implements NodeInterface
     /** @var array */
     protected array $options;
 
-    /** @var string|null */
-    protected ?string $url = null;
-
     /**
      * Node constructor.
      * @param string $key
@@ -339,7 +336,10 @@ class Node implements NodeInterface
         return $this->parent->resolveRoot();
     }
 
-    public function getPath()
+    /**
+     * @return string
+     */
+    public function getPath(): string
     {
         return (($parent = $this->parent->getPath()) ? $parent . "." : false) . $this->key;
     }
@@ -347,7 +347,7 @@ class Node implements NodeInterface
     /**
      * @return string[]
      */
-    public function getInlineNodes()
+    public function getInlineNodes(): array
     {
         return $this->inlineNodes;
     }
@@ -403,7 +403,10 @@ class Node implements NodeInterface
         return $this;
     }
 
-    public function hasVisibleChildren()
+    /**
+     * @return bool
+     */
+    public function hasVisibleChildren(): bool
     {
         if ($this->childNodes && count($this->childNodes) > 0) {
             foreach ($this->childNodes as $child) {
@@ -421,7 +424,7 @@ class Node implements NodeInterface
     /**
      * @return Node[]|array
      */
-    public function getParentNodes()
+    public function getParentNodes(): array
     {
         $parents = [];
 
@@ -433,12 +436,19 @@ class Node implements NodeInterface
         return $parents;
     }
 
+    /**
+     * @param string $key
+     * @return mixed|null
+     */
     public function getOption(string $key)
     {
         return $this->options[$key] ?? null;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'label' => null,

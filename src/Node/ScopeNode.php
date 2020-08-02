@@ -1,6 +1,8 @@
 <?php
 namespace Iterica\Navigation\Node;
 
+use Iterica\Navigation\Exception\NodeNotFoundException;
+
 class ScopeNode implements NodeInterface
 {
     /**
@@ -11,17 +13,14 @@ class ScopeNode implements NodeInterface
     /** @var string $key */
     protected string $key;
 
-    /** @var Node[]|null $childNodes */
+    /** @var Node[]|array $childNodes */
     protected array $childNodes = [];
 
     /** @var Node|null */
     protected ?Node $activeNode = null;
 
-    /** @var Node[]|null */
+    /** @var Node[]|array */
     protected array $nodeList = [];
-
-    /** @var boolean $routesResolved */
-    protected bool $routesResolved = false;
 
     public function __construct($scope)
     {
@@ -87,7 +86,6 @@ class ScopeNode implements NodeInterface
     public function addToNodeList(Node $node)
     {
         $this->nodeList[$node->getPath()] = $node;
-        $this->routesResolved = false;
     }
 
     /**
@@ -101,7 +99,7 @@ class ScopeNode implements NodeInterface
     /**
      * @return void
      */
-    public function getPath()
+    public function getPath(): void
     {
         return;
     }
@@ -111,10 +109,10 @@ class ScopeNode implements NodeInterface
      * @return Node|mixed
      * @throws \Exception
      */
-    public function getNodeByPath($path)
+    public function getNodeByPath($path): ?Node
     {
         if (!isset($this->nodeList[$path])) {
-            throw new \InvalidArgumentException(sprintf("Node not found in navigation tree with path %s", $path));
+            throw new NodeNotFoundException(sprintf("Node not found in navigation tree with path %s", $path));
         }
 
         return $this->nodeList[$path];
@@ -124,7 +122,7 @@ class ScopeNode implements NodeInterface
      * @param Node $child
      * @return Node
      */
-    public function addChild(Node $child)
+    public function addChild(Node $child): Node
     {
         $child->setParent($this);
         $this->childNodes[$child->getKey()] = $child;
@@ -134,20 +132,20 @@ class ScopeNode implements NodeInterface
     }
 
     /**
-     * @return Node[]|null
+     * @return Node[]|array
      */
-    public function getChildren()
+    public function getChildren(): array
     {
         return $this->childNodes;
     }
 
     /**
      * @param string $key
-     * @return Node
+     * @return Node|null
      */
-    public function getChild(string $key)
+    public function getChild(string $key): ?Node
     {
-        return $this->childNodes[$key];
+        return $this->childNodes[$key] ?? null;
     }
 
     /**
