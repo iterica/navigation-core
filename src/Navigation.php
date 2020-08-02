@@ -19,9 +19,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Navigation
 {
-    /** @var TranslatorInterface $translator */
-    protected TranslatorInterface $translator;
-
     /** @var ScopeNode[] */
     private array $scopes = [];
 
@@ -49,10 +46,8 @@ class Navigation
      * @param TranslatorInterface $translator
      */
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        TranslatorInterface $translator
+        EventDispatcherInterface $eventDispatcher
     ) {
-        $this->translator = $translator;
         $this->eventDispatcher = $eventDispatcher;
         $this->propertyAccessor = new PropertyAccessor();
         $this->expressionLanguage = new ExpressionLanguage();

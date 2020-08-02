@@ -29,8 +29,8 @@ final class SrcCodeTest extends Framework\TestCase
     {
         self::assertClassesHaveTests(
             __DIR__ . '/../../src/',
-            'Iterica\\NavigationCore\\',
-            'Iterica\\NavigationCore\\Test\\Unit\\'
+            'Iterica\\Navigation\\',
+            'Iterica\\Navigation\\Test\\Unit\\'
         );
     }
 }

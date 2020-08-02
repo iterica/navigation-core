@@ -22,7 +22,6 @@ class NavigationBuiltEvent extends Event {
 
     public function __construct(ScopeNode $node, $scope)
     {
-
         $this->rootNode = $node;
         $this->scope = $scope;
     }

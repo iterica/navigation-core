@@ -11,7 +11,10 @@
     }
   ],
   "require": {
-    "php": "^7.4"
+    "php": "^7.4",
+    "psr/event-dispatcher": "^1.0",
+    "symfony/event-dispatcher-contracts": "^2.1",
+    "symfony/options-resolver": "^4.0 || ^5.0"
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.6.1",
@@ -39,12 +42,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Iterica\\NavigationCore\\": "src/"
+      "Iterica\\Navigation\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Iterica\\NavigationCore\\Test\\": "test/"
+      "Iterica\\Navigation\\Test\\": "test/"
     }
   },
   "support": {

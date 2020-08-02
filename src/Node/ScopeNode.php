@@ -90,20 +90,31 @@ class ScopeNode implements NodeInterface
         $this->routesResolved = false;
     }
 
+    /**
+     * @return array|Node[]|null
+     */
     public function getNodeList()
     {
         return $this->nodeList;
     }
 
+    /**
+     * @return void
+     */
     public function getPath()
     {
         return;
     }
 
+    /**
+     * @param $path
+     * @return Node|mixed
+     * @throws \Exception
+     */
     public function getNodeByPath($path)
     {
         if (!isset($this->nodeList[$path])) {
-            throw new \Exception("Node not found in navigation tree with path {$path}");
+            throw new \InvalidArgumentException(sprintf("Node not found in navigation tree with path %s", $path));
         }
 
         return $this->nodeList[$path];
