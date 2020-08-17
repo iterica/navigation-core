@@ -30,6 +30,10 @@ branches:
           - "iterica-bot"
 
 labels:
+  - name: "dependency"
+    color: "f7bed8"
+    description: ""
+
   - name: "bug"
     color: "ee0701"
     description: ""
