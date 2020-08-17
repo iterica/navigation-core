@@ -411,7 +411,7 @@ jobs:
       - name: "Request review from @ergebnis-bot"
         uses: "actions/github-script@v2.0.1"
         with:
-          github-token: "${{ secrets.ERGEBNIS_BOT_TOKEN }}"
+          github-token: "${{ secrets.ITERICA_BOT_TOKEN }}"
           script: |
             const pullRequest = context.payload.pull_request
             const repository = context.repo
@@ -430,7 +430,7 @@ jobs:
       - name: "Assign @ergebnis-bot"
         uses: "actions/github-script@v2.0.1"
         with:
-          github-token: "${{ secrets.ERGEBNIS_BOT_TOKEN }}"
+          github-token: "${{ secrets.ITERICA_BOT_TOKEN }}"
           script: |
             const pullRequest = context.payload.pull_request
             const repository = context.repo
@@ -450,7 +450,7 @@ jobs:
         uses: "actions/github-script@v2.0.1"
         if: "github.actor != 'ergebnis-bot'"
         with:
-          github-token: "${{ secrets.ERGEBNIS_BOT_TOKEN }}"
+          github-token: "${{ secrets.ITERICA_BOT_TOKEN }}"
           script: |
             const pullRequest = context.payload.pull_request
             const repository = context.repo
@@ -465,7 +465,7 @@ jobs:
       - name: "Merge pull request"
         uses: "actions/github-script@v2.0.1"
         with:
-          github-token: "${{ secrets.ERGEBNIS_BOT_TOKEN }}"
+          github-token: "${{ secrets.ITERICA_BOT_TOKEN }}"
           script: |
             const pullRequest = context.payload.pull_request
             const repository = context.repo

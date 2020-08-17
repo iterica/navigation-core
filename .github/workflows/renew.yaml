@@ -86,4 +86,4 @@ jobs:
           path: "."
           title: "Enhancement: Update license year"
         env:
-          GITHUB_TOKEN: "${{ secrets.ERGEBNIS_BOT_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.ITERICA_BOT_TOKEN }}"
