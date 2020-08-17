@@ -3,6 +3,6 @@ namespace Iterica\Navigation\Exception;
 
 use Exception;
 
-class ScopeNotFoundException extends Exception
+class NodeNotFoundException extends Exception
 {
 }

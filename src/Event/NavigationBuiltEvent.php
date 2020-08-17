@@ -2,27 +2,20 @@
 namespace Iterica\Navigation\Event;
 
 use Iterica\Navigation\Node\ScopeNode;
-use Symfony\Contracts\EventDispatcher\Event;
 
-class NavigationBuiltEvent extends Event {
-    /**
-     * @Event("Iterica\Navigation\Event\NavigationBuiltEvent")
-     */
-    public const ON_NAVIGATION_BUILT = 'iterica.navigation.built';
-
+class NavigationBuiltEvent {
     /**
      * @var ScopeNode
      */
-    private $rootNode;
+    private ?ScopeNode $scopeNode;
 
     /**
      * @var string
      */
-    private $scope;
+    private ?string $scope;
 
-    public function __construct(ScopeNode $node, $scope)
+    public function __construct(ScopeNode $node, string $scope = null)
     {
-
         $this->rootNode = $node;
         $this->scope = $scope;
     }
@@ -30,17 +23,9 @@ class NavigationBuiltEvent extends Event {
     /**
      * @return ScopeNode
      */
-    public function getRootNode(): ScopeNode
+    public function getScopeNode(): ScopeNode
     {
-        return $this->rootNode;
-    }
-
-    /**
-     * @param ScopeNode $rootNode
-     */
-    public function setRootNode(ScopeNode $rootNode): void
-    {
-        $this->rootNode = $rootNode;
+        return $this->scopeNode;
     }
 
     /**
@@ -49,13 +34,5 @@ class NavigationBuiltEvent extends Event {
     public function getScope(): string
     {
         return $this->scope;
-    }
-
-    /**
-     * @param string $scope
-     */
-    public function setScope(string $scope): void
-    {
-        $this->scope = $scope;
     }
 }

@@ -19,9 +19,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Navigation
 {
-    /** @var TranslatorInterface $translator */
-    protected TranslatorInterface $translator;
-
     /** @var ScopeNode[] */
     private array $scopes = [];
 
@@ -46,29 +43,25 @@ class Navigation
     /**
      * Navigation constructor.
      * @param EventDispatcherInterface $eventDispatcher
-     * @param TranslatorInterface $translator
      */
-    public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        TranslatorInterface $translator
-    ) {
-        $this->translator = $translator;
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
         $this->eventDispatcher = $eventDispatcher;
         $this->propertyAccessor = new PropertyAccessor();
         $this->expressionLanguage = new ExpressionLanguage();
     }
 
     /**
-     * @param array $tree
+     * @param array $scopes
      * @throws Exception
      */
-    public function configure(array $tree)
+    public function configureScopes(array $scopes)
     {
         $this->scopes = [];
 
-        foreach ($tree as $scope => $scopeTree) {
+        foreach ($scopes as $scope => $tree) {
             $scopeNode = $this->addScope($scope);
-            $this->buildNavigationTree($scopeNode, $scopeTree, $tree);
+            $this->buildNavigationTree($scopeNode, $tree, $scopes);
 
             $this->eventDispatcher->dispatch(
                 new NavigationBuiltEvent($scopeNode, $scope)
@@ -76,7 +69,7 @@ class Navigation
         }
     }
 
-    protected function buildNavigationTree(NodeInterface $node, $tree, $origin)
+    protected function buildNavigationTree(NodeInterface $node, $tree, $origin): void
     {
         foreach ($tree as $key => $child) {
             if ($key === 'includes' && is_string($child)) {
@@ -134,7 +127,7 @@ class Navigation
      * @return Node
      * @throws \Exception
      */
-    public function getNode(string $scope, $path)
+    public function getNode(string $scope, $path): ?Node
     {
         return $this->getScope($scope)->getNodeByPath($path);
     }
