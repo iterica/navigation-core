@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Iterica\Navigation;
 
 use Exception;
@@ -31,10 +33,10 @@ class Navigation
     /** @var array|NavigationExtensionInterface[] */
     private array $extensions;
 
-    /** @var callable */
+    /** @var callable|null */
     private $optionsConfigurator;
 
-    /** @var callable */
+    /** @var callable|null */
     private $expressionConfigurator;
 
     /** @var ExpressionLanguage */
@@ -55,7 +57,7 @@ class Navigation
      * @param array $scopes
      * @throws Exception
      */
-    public function configureScopes(array $scopes)
+    public function configureScopes(array $scopes): void
     {
         $this->scopes = [];
 
@@ -69,7 +71,13 @@ class Navigation
         }
     }
 
-    protected function buildNavigationTree(NodeInterface $node, $tree, $origin): void
+    /**
+     * @param NodeInterface $node
+     * @param array $tree
+     * @param array $origin
+     * @throws Exception
+     */
+    protected function buildNavigationTree(NodeInterface $node, array $tree, array $origin): void
     {
         foreach ($tree as $key => $child) {
             if ($key === 'includes' && is_string($child)) {
@@ -123,21 +131,21 @@ class Navigation
 
     /**
      * @param string $scope
-     * @param array|string $path
+     * @param string $path
      * @return Node
      * @throws \Exception
      */
-    public function getNode(string $scope, $path): ?Node
+    public function getNode(string $scope, string $path): ?Node
     {
         return $this->getScope($scope)->getNodeByPath($path);
     }
 
     /**
-     * @param array|string $scope
+     * @param string $scope
      * @return ScopeNode
      * @throws \Exception
      */
-    public function getScope($scope): ScopeNode
+    public function getScope(string $scope): ScopeNode
     {
         if (!isset($this->scopes[$scope])) {
             throw new ScopeNotFoundException($scope);
@@ -147,11 +155,11 @@ class Navigation
     }
 
     /**
-     * @param $scope
+     * @param string $scope
      * @return Node|null
-     * @throws \Exception
+     * @throws ScopeNotFoundException
      */
-    public function getActiveNode($scope): ?Node
+    public function getActiveNode(string $scope): ?Node
     {
         return $this->getScope($scope)->getActiveNode();
     }
@@ -161,8 +169,8 @@ class Navigation
      */
     private function getOptionsConfigurator(): callable
     {
-        if (!$this->optionsConfigurator) {
-            $this->optionsConfigurator = function (OptionsResolver $resolver) {
+        if ($this->optionsConfigurator === null) {
+            $this->optionsConfigurator = function (OptionsResolver $resolver): void {
                 foreach ($this->extensions as $extension) {
                     $extension->configureOptions($resolver);
                 }
@@ -175,7 +183,7 @@ class Navigation
     /**
      * @param IteratorAggregate $extensions
      */
-    public function setExtensions(IteratorAggregate $extensions)
+    public function setExtensions(IteratorAggregate $extensions): void
     {
         foreach ($extensions as $extension) {
             $this->extensions[] = $extension;
@@ -188,7 +196,7 @@ class Navigation
     /**
      * @param NavigationExtensionInterface $extension
      */
-    public function addExtension(NavigationExtensionInterface $extension)
+    public function addExtension(NavigationExtensionInterface $extension): void
     {
         $this->extensions[] = $extension;
         $this->optionsConfigurator = null;
@@ -200,7 +208,7 @@ class Navigation
      */
     public function getExpressionConfigurator(): callable
     {
-        if (!$this->expressionConfigurator) {
+        if ($this->expressionConfigurator === null) {
             $context = [];
 
             foreach ($this->extensions as $extension) {
@@ -208,7 +216,7 @@ class Navigation
                 $extension->configureExpressionLanguage($this->expressionLanguage);
             }
 
-            $this->expressionConfigurator = function (&$options) use ($context) {
+            $this->expressionConfigurator = function (&$options) use ($context): void {
                 if (is_string($options['hidden'])) {
                     $options['hidden'] = $this->expressionLanguage->evaluate($options['hidden'], $context) !== false;
                 }

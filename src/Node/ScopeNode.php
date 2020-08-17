@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Iterica\Navigation\Node;
 
 use Iterica\Navigation\Exception\NodeNotFoundException;
@@ -22,7 +24,7 @@ class ScopeNode implements NodeInterface
     /** @var Node[]|array */
     protected array $nodeList = [];
 
-    public function __construct($scope)
+    public function __construct(string $scope)
     {
         $this->key = $scope;
     }
@@ -38,7 +40,7 @@ class ScopeNode implements NodeInterface
     /**
      * @param string $key
      */
-    public function setKey(string $key)
+    public function setKey(string $key): void
     {
         $this->key = $key;
     }
@@ -61,7 +63,7 @@ class ScopeNode implements NodeInterface
         return $this;
     }
 
-    public function resolveRoot()
+    public function resolveRoot(): ScopeNode
     {
         return $this;
     }
@@ -69,7 +71,7 @@ class ScopeNode implements NodeInterface
     /**
      * @return Node|ScopeNode|null
      */
-    public function getActiveNode()
+    public function getActiveNode(): ?NodeInterface
     {
         foreach ($this->nodeList as $node){
             if ($node->isActive()) {
@@ -77,13 +79,13 @@ class ScopeNode implements NodeInterface
             }
         }
 
-        return;
+        return null;
     }
 
     /**
      * @param Node $node
      */
-    public function addToNodeList(Node $node)
+    public function addToNodeList(Node $node): void
     {
         $this->nodeList[$node->getPath()] = $node;
     }
@@ -91,7 +93,7 @@ class ScopeNode implements NodeInterface
     /**
      * @return array|Node[]|null
      */
-    public function getNodeList()
+    public function getNodeList(): ?array
     {
         return $this->nodeList;
     }
@@ -105,11 +107,11 @@ class ScopeNode implements NodeInterface
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @return Node|mixed
      * @throws \Exception
      */
-    public function getNodeByPath($path): ?Node
+    public function getNodeByPath(string $path): ?Node
     {
         if (!isset($this->nodeList[$path])) {
             throw new NodeNotFoundException(sprintf("Node not found in navigation tree with path %s", $path));
@@ -151,7 +153,7 @@ class ScopeNode implements NodeInterface
     /**
      * @return bool
      */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return count($this->childNodes) > 0;
     }
