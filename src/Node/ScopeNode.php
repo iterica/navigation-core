@@ -73,7 +73,7 @@ class ScopeNode implements NodeInterface
      */
     public function getActiveNode(): ?Node
     {
-        foreach ($this->nodeList as $node){
+        foreach ($this->nodeList as $node) {
             if ($node->isActive()) {
                 return $node;
             }

@@ -14,7 +14,6 @@ abstract class AbstractNavigationExtension implements NavigationExtensionInterfa
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-
     }
 
     /**
@@ -22,7 +21,6 @@ abstract class AbstractNavigationExtension implements NavigationExtensionInterfa
      */
     public function processNode(Node $node): void
     {
-
     }
 
     /**
@@ -30,7 +28,6 @@ abstract class AbstractNavigationExtension implements NavigationExtensionInterfa
      */
     public function configureExpressionLanguage(ExpressionLanguage $expressionLanguage): void
     {
-
     }
 
     /**

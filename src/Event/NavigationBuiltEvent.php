@@ -5,7 +5,8 @@ namespace Iterica\Navigation\Event;
 
 use Iterica\Navigation\Node\ScopeNode;
 
-final class NavigationBuiltEvent {
+final class NavigationBuiltEvent
+{
     /**
      * @var ScopeNode
      */
