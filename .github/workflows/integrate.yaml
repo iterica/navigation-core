@@ -10,7 +10,7 @@ on: # yamllint disable-line rule:truthy
 
 env:
   MIN_COVERED_MSI: 0
-  MIN_MSI: 100
+  MIN_MSI: 0
   PHP_EXTENSIONS: "mbstring"
 
 jobs:
