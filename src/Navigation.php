@@ -79,13 +79,14 @@ class Navigation
      */
     protected function buildNavigationTree(NodeInterface $node, array $tree, array $origin): void
     {
+        /** @var string $key */
         foreach ($tree as $key => $child) {
             if ($key === 'includes' && is_string($child)) {
                 // Transform to readable propertyaccessor string
                 $propertyKey = '['.str_replace('.', '][', $child).']';
                 if ($this->propertyAccessor->isReadable($origin, $propertyKey)) {
                     $parts = explode('.', $child);
-                    $key = end($parts);
+                    $key = array_pop($parts);
                     $child = $this->propertyAccessor->getValue($origin, $propertyKey);
                 } else {
                     throw new Exception('Property path '.$child.' for inclusion of menu is not readable');

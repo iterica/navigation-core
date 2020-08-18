@@ -46,7 +46,7 @@ class ScopeNode implements NodeInterface
     }
 
     /**
-     * @return Node|ScopeNode
+     * @return ScopeNode
      */
     public function getRoot(): ScopeNode
     {
@@ -69,9 +69,9 @@ class ScopeNode implements NodeInterface
     }
 
     /**
-     * @return Node|ScopeNode|null
+     * @return Node|null
      */
-    public function getActiveNode(): ?NodeInterface
+    public function getActiveNode(): ?Node
     {
         foreach ($this->nodeList as $node){
             if ($node->isActive()) {
@@ -99,16 +99,16 @@ class ScopeNode implements NodeInterface
     }
 
     /**
-     * @return void
+     * @return string|null
      */
-    public function getPath(): void
+    public function getPath(): ?string
     {
-        return;
+        return null;
     }
 
     /**
      * @param string $path
-     * @return Node|mixed
+     * @return Node|null
      * @throws \Exception
      */
     public function getNodeByPath(string $path): ?Node

@@ -11,27 +11,22 @@ declare(strict_types=1);
  * @see https://github.com/ergebnis/php-library-template
  */
 
-namespace Ergebnis\Library\Test\Unit;
+namespace Iterica\Navigation\Test\Unit;
 
-use Ergebnis\Library\Example;
-use Ergebnis\Test\Util;
+use Iterica\Navigation\Node\ScopeNode;
 use PHPUnit\Framework;
 
 /**
  * @internal
  *
- * @covers \Ergebnis\Library\Example
+ * @covers \Iterica\Navigation\Node\ScopeNode
  */
-final class ExampleTest extends Framework\TestCase
+final class ScopeNodeTest extends Framework\TestCase
 {
-    use Util\Helper;
-
-    public function testFromNameReturnsExample(): void
+    public function testInitializeScopeNode(): void
     {
-        $name = self::faker()->sentence;
+        $scopeNode = new ScopeNode('test');
 
-        $example = Example::fromName($name);
-
-        self::assertSame($name, $example->name());
+        parent::assertEquals($scopeNode->getKey(), 'test');
     }
 }

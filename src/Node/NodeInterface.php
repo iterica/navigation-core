@@ -26,4 +26,14 @@ interface NodeInterface
      * @return bool
      */
     public function hasChildren();
+
+    /**
+     * @return ScopeNode
+     */
+    public function resolveRoot(): ScopeNode;
+
+    /**
+     * @return string|null
+     */
+    public function getPath(): ?string;
 }

@@ -23,7 +23,7 @@ class Node implements NodeInterface
     /** @var Node[]|array */
     protected array $childNodes = [];
 
-    /** @var Node[]|array */
+    /** @var string[]|array */
     protected array $inlineNodes = [];
 
     /** @var array */
@@ -303,7 +303,7 @@ class Node implements NodeInterface
     {
         $this->active = $active;
 
-        if ($active === true && !($this->getParent() instanceof ScopeNode)) {
+        if ($active === true && ($this->getParent() instanceof Node)) {
             $this->getParent()->setActiveChild(true);
         }
 
@@ -330,7 +330,7 @@ class Node implements NodeInterface
             $this->active = false;
         }
 
-        if (!($this->getParent() instanceof ScopeNode)) {
+        if ($this->getParent() instanceof Node) {
             $this->getParent()->setActiveChild($activeChild);
         }
 
@@ -351,15 +351,17 @@ class Node implements NodeInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPath(): string
+    public function getPath(): ?string
     {
-        return (($parent = $this->parent->getPath()) ? $parent . "." : false) . $this->key;
+        $parent = $this->parent->getPath();
+
+        return ($parent !== null ? $parent . '.' : '') . $this->key;
     }
 
     /**
-     * @return Node[]|array
+     * @return string[]|array
      */
     public function getInlineNodes(): array
     {
@@ -378,6 +380,8 @@ class Node implements NodeInterface
                 return $node;
             }
         }
+
+        return null;
     }
 
     /**
@@ -423,7 +427,7 @@ class Node implements NodeInterface
      */
     public function hasVisibleChildren(): bool
     {
-        if ($this->childNodes && count($this->childNodes) > 0) {
+        if (count($this->childNodes) > 0) {
             foreach ($this->childNodes as $child) {
                 if (!$child->isHidden()) {
                     return true;
