@@ -167,9 +167,9 @@ class Node implements NodeInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
         return $this->options['url'];
     }
@@ -186,9 +186,9 @@ class Node implements NodeInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getPriority(): int
+    public function getPriority(): ?int
     {
         return $this->options['priority'];
     }
