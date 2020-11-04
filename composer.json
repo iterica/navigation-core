@@ -23,7 +23,7 @@
     "ergebnis/license": "^1.1.0",
     "ergebnis/test-util": "^1.1.0",
     "friendsofphp/php-cs-fixer": "~2.16.4",
-    "infection/infection": "~0.17.3",
+    "infection/infection": "~0.20.1",
     "jangregor/phpstan-prophecy": "~0.8.0",
     "phpstan/extension-installer": "^1.0.5",
     "phpstan/phpstan": "~0.12.40",
