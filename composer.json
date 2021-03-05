@@ -16,7 +16,7 @@
     "symfony/event-dispatcher-contracts": "^2.1",
     "symfony/expression-language": "^5.1",
     "symfony/options-resolver": "^5.1.5",
-    "symfony/property-access": "^5.1"
+    "symfony/property-access": "^5.2"
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.8.2",
