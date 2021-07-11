@@ -1,9 +1,9 @@
 # php-library-template
 
-[![Integrate](https://github.com/iterica/navigation-core/workflows/Integrate/badge.svg?branch=main)](https://github.com/iterica/navigation-core/actions)
-[![Prune](https://github.com/iterica/navigation-core/workflows/Prune/badge.svg?branch=main)](https://github.com/iterica/navigation-core/actions)
-[![Release](https://github.com/iterica/navigation-core/workflows/Release/badge.svg?branch=main)](https://github.com/iterica/navigation-core/actions)
-[![Renew](https://github.com/iterica/navigation-core/workflows/Renew/badge.svg?branch=main)](https://github.com/iterica/navigation-core/actions)
+[![Integrate](https://github.com/iterica/navigation-core/workflows/Integrate/badge.svg?branch=master)](https://github.com/iterica/navigation-core/actions)
+[![Prune](https://github.com/iterica/navigation-core/workflows/Prune/badge.svg?branch=master)](https://github.com/iterica/navigation-core/actions)
+[![Release](https://github.com/iterica/navigation-core/workflows/Release/badge.svg?branch=master)](https://github.com/iterica/navigation-core/actions)
+[![Renew](https://github.com/iterica/navigation-core/workflows/Renew/badge.svg?branch=master)](https://github.com/iterica/navigation-core/actions)
 
 [![Code Coverage](https://codecov.io/gh/iterica/navigation-core/branch/main/graph/badge.svg)](https://codecov.io/gh/iterica/navigation-core)
 [![Type Coverage](https://shepherd.dev/github/iterica/navigation-core/coverage.svg)](https://shepherd.dev/github/iterica/navigation-core)

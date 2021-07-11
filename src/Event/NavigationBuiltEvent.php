@@ -1,22 +1,25 @@
 <?php
+declare(strict_types=1);
+
 namespace Iterica\Navigation\Event;
 
 use Iterica\Navigation\Node\ScopeNode;
 
-class NavigationBuiltEvent {
+final class NavigationBuiltEvent
+{
     /**
      * @var ScopeNode
      */
-    private ?ScopeNode $scopeNode;
+    private ScopeNode $scopeNode;
 
     /**
      * @var string
      */
-    private ?string $scope;
+    private string $scope;
 
-    public function __construct(ScopeNode $node, string $scope = null)
+    public function __construct(ScopeNode $node, string $scope)
     {
-        $this->rootNode = $node;
+        $this->scopeNode = $node;
         $this->scope = $scope;
     }
 

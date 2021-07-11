@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Iterica\Navigation\Node;
 
 use Iterica\Navigation\Exception\RootNodeNotFoundException;
@@ -9,8 +11,8 @@ class Node implements NodeInterface
     /** @var string $key */
     protected string $key;
 
-    /** @var Node|ScopeNode|NodeInterface $parent */
-    protected NodeInterface $parent;
+    /** @var Node|ScopeNode|NodeInterface|null $parent */
+    protected ?NodeInterface $parent = null;
 
     /** @var bool */
     protected bool $active = false;
@@ -21,7 +23,7 @@ class Node implements NodeInterface
     /** @var Node[]|array */
     protected array $childNodes = [];
 
-    /** @var Node[]|array */
+    /** @var string[]|array */
     protected array $inlineNodes = [];
 
     /** @var array */
@@ -31,7 +33,7 @@ class Node implements NodeInterface
      * Node constructor.
      * @param string $key
      * @param array $options
-     * @param callable $optionsConfigurator
+     * @param callable|null $optionsConfigurator
      * @param callable|null $expressionProcessor
      */
     public function __construct(
@@ -79,9 +81,9 @@ class Node implements NodeInterface
 
     /**
      * @param string $key
-     * @return $this
+     * @return self
      */
-    public function setKey(string $key): Node
+    public function setKey(string $key): self
     {
         $this->key = $key;
 
@@ -98,7 +100,7 @@ class Node implements NodeInterface
 
     /**
      * @param string|null $label
-     * @return $this
+     * @return self
      */
     public function setLabel(string $label = null)
     {
@@ -117,11 +119,12 @@ class Node implements NodeInterface
 
     /**
      * @param string|null $title
-     * @return $this
+     * @return self
      */
-    public function setTitle(string $title = null): Node
+    public function setTitle(string $title = null): self
     {
         $this->options['title'] = $title;
+
         return $this;
     }
 
@@ -135,11 +138,12 @@ class Node implements NodeInterface
 
     /**
      * @param string|null $buttonClass
-     * @return Node
+     * @return self
      */
-    public function setButtonClass(string $buttonClass = null): Node
+    public function setButtonClass(string $buttonClass = null): self
     {
         $this->options['buttonClass'] = $buttonClass;
+
         return $this;
     }
 
@@ -153,9 +157,9 @@ class Node implements NodeInterface
 
     /**
      * @param string|null $icon
-     * @return $this
+     * @return self
      */
-    public function setIcon(string $icon = null)
+    public function setIcon(string $icon = null): self
     {
         $this->options['icon'] = $icon;
 
@@ -163,14 +167,18 @@ class Node implements NodeInterface
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->options['url'];
     }
 
-    public function setUrl($url)
+    /**
+     * @param string $url
+     * @return $this
+     */
+    public function setUrl(string $url): self
     {
         $this->options['url'] = $url;
 
@@ -178,18 +186,18 @@ class Node implements NodeInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getPriority()
+    public function getPriority(): ?int
     {
         return $this->options['priority'];
     }
 
     /**
      * @param int $priority
-     * @return $this
+     * @return self
      */
-    public function setPriority($priority)
+    public function setPriority(int $priority): self
     {
         $this->options['priority'] = $priority;
 
@@ -199,7 +207,7 @@ class Node implements NodeInterface
     /**
      * @return Node[]|null
      */
-    public function getChildren()
+    public function getChildren(): ?array
     {
         return $this->childNodes;
     }
@@ -207,7 +215,7 @@ class Node implements NodeInterface
     /**
      * @param array $children
      */
-    public function setChildren(array $children = null)
+    public function setChildren(array $children = null): void
     {
         $this->childNodes = $children;
     }
@@ -230,7 +238,7 @@ class Node implements NodeInterface
     }
 
     /**
-     * @return Node|ScopeNode
+     * @return NodeInterface|Node|ScopeNode
      */
     public function getParent(): NodeInterface
     {
@@ -238,11 +246,14 @@ class Node implements NodeInterface
     }
 
     /**
-     * @param Node|ScopeNode|NodeInterface $parent
+     * @param NodeInterface $parent
+     * @return self
      */
-    public function setParent(NodeInterface $parent)
+    public function setParent(NodeInterface $parent): self
     {
         $this->parent = $parent;
+
+        return $this;
     }
 
     /**
@@ -279,21 +290,24 @@ class Node implements NodeInterface
     /**
      * @return boolean
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->active;
     }
 
     /**
      * @param boolean $active
+     * @return self
      */
-    public function setActive($active)
+    public function setActive($active): self
     {
         $this->active = $active;
 
-        if ($active === true && !($this->getParent() instanceof ScopeNode)) {
+        if ($active === true && ($this->getParent() instanceof Node)) {
             $this->getParent()->setActiveChild(true);
         }
+
+        return $this;
     }
 
     /**
@@ -306,7 +320,7 @@ class Node implements NodeInterface
 
     /**
      * @param boolean $activeChild
-     * @return $this
+     * @return self
      */
     public function setActiveChild($activeChild = false)
     {
@@ -316,7 +330,7 @@ class Node implements NodeInterface
             $this->active = false;
         }
 
-        if (!($this->getParent() instanceof ScopeNode)) {
+        if ($this->getParent() instanceof Node) {
             $this->getParent()->setActiveChild($activeChild);
         }
 
@@ -325,11 +339,11 @@ class Node implements NodeInterface
 
     /**
      * @return ScopeNode
-     * @throws \Exception
+     * @throws RootNodeNotFoundException
      */
-    public function resolveRoot()
+    public function resolveRoot(): ScopeNode
     {
-        if (!$this->parent || !($this->parent instanceof NodeInterface)) {
+        if ($this->parent === null) {
             throw new RootNodeNotFoundException('Root node is not resolvable because the parent node is not set');
         }
 
@@ -337,15 +351,17 @@ class Node implements NodeInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPath(): string
+    public function getPath(): ?string
     {
-        return (($parent = $this->parent->getPath()) ? $parent . "." : false) . $this->key;
+        $parent = $this->parent->getPath();
+
+        return ($parent !== null ? $parent . '.' : '') . $this->key;
     }
 
     /**
-     * @return string[]
+     * @return string[]|array
      */
     public function getInlineNodes(): array
     {
@@ -353,9 +369,10 @@ class Node implements NodeInterface
     }
 
     /**
+     * @var string $key
      * @return Node|null
      */
-    public function getInlineNode($key): ?Node
+    public function getInlineNode(string $key): ?Node
     {
         foreach ($this->getInlineNodes() as $inlineNode) {
             $node = $this->resolveRoot()->getNodeByPath($inlineNode);
@@ -363,15 +380,17 @@ class Node implements NodeInterface
                 return $node;
             }
         }
+
+        return null;
     }
 
     /**
      * Unset an inline node in this node by node key
      *
-     * @param $nodeKey
+     * @param string $nodeKey
      * @return bool
      */
-    public function removeInlineNode($nodeKey): bool
+    public function removeInlineNode(string $nodeKey): bool
     {
         foreach ($this->inlineNodes as $key => $value) {
             if ($value === $nodeKey) {
@@ -408,7 +427,7 @@ class Node implements NodeInterface
      */
     public function hasVisibleChildren(): bool
     {
-        if ($this->childNodes && count($this->childNodes) > 0) {
+        if (count($this->childNodes) > 0) {
             foreach ($this->childNodes as $child) {
                 if (!$child->isHidden()) {
                     return true;

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Iterica\Navigation\Node;
 
 interface NodeInterface
@@ -24,4 +26,14 @@ interface NodeInterface
      * @return bool
      */
     public function hasChildren();
+
+    /**
+     * @return ScopeNode
+     */
+    public function resolveRoot(): ScopeNode;
+
+    /**
+     * @return string|null
+     */
+    public function getPath(): ?string;
 }

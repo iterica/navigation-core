@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Iterica\Navigation\Extension;
 
@@ -6,14 +7,13 @@ use Iterica\Navigation\Node\Node;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AbstractNavigationExtension implements NavigationExtensionInterface
+abstract class AbstractNavigationExtension implements NavigationExtensionInterface
 {
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-
     }
 
     /**
@@ -21,7 +21,6 @@ class AbstractNavigationExtension implements NavigationExtensionInterface
      */
     public function processNode(Node $node): void
     {
-
     }
 
     /**
@@ -29,7 +28,6 @@ class AbstractNavigationExtension implements NavigationExtensionInterface
      */
     public function configureExpressionLanguage(ExpressionLanguage $expressionLanguage): void
     {
-
     }
 
     /**
